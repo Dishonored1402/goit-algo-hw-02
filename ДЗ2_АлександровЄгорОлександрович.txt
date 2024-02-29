@@ -1,0 +1,51 @@
+from queue import Queue
+
+queue = Queue()
+
+def generate_request():
+    new_request = "Запит " + str(queue.qsize() + 1)
+    queue.put(new_request)
+
+def process_request():
+    if not queue.empty():
+        processed_request = queue.get()
+        print("Обробка:", processed_request)
+    else:
+        print("Черга пуста.")
+
+while True:
+    generate_request()
+    process_request()
+
+
+
+from collections import deque
+
+char_queue = deque()
+
+def generate_request(input_string):
+    for char in input_string:
+        char_queue.append(char)
+
+def process_request():
+    if len(char_queue) > 1:
+        front_char = char_queue.popleft()
+        rear_char = char_queue.pop()
+        if front_char.lower() != rear_char.lower():
+            return False
+    return True
+
+while True:
+    user_input = input("Введіть рядок (або 'exit' для виходу): ")
+
+    if user_input.lower() == 'exit':
+        break
+    generate_request(user_input)
+    result = process_request()
+
+    if result:
+        print("Рядок є паліндромом.")
+    else:
+        print("Рядок не є паліндромом.")
+
+    char_queue.clear()
